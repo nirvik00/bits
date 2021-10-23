@@ -1,0 +1,14 @@
+name: testenv2
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - gunicorn
+  - flask
+  - ifcopenshell
+  - flask-cors
+  - pymongo
+  - dnspython
+  - pyld
+  - pip
+prefix: /Users/nirviksaha/opt/miniconda3/envs/bimaccess

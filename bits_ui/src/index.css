@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&display=swap');
+
+:root {
+	--primary-color: hsl(184, 89%, 43%);
+	--secondary-color: #1c3fa8;
+	--dark-color: #002240;
+	--danger-color: #f58d6d;
+
+	--light-color: hsla(0, 100%, 93%, 0.466);
+	--success-color: #e9c67b;
+	--error-color: #d9534f;
+	--transparent: #fff;
+}
+
+* {
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	font-family: 'Lato', sans-serif;
+	color: #333;
+	line-height: 1.6;
+	font-size: larger;
+}
+
+label {
+	font-size: 1.2rem;
+}
+
+html,
+body,
+#root,
+.App {
+	height: 100%;
+}
+
+ul {
+	list-style-type: none;
+}
+
+a {
+	color: var(--primary-color);
+	text-decoration: none;
+}
+
+a:hover {
+	color: rgb(47, 0, 255);
+	text-decoration: underline;
+}
+
+h1,
+h2,
+h3 {
+	color: slategrey;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	text-decoration: none;
+	font-weight: 500;
+}
+
+h4,
+h5,
+h6 {
+	color: slategrey;
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	text-decoration: none;
+	font-weight: 300;
+	font-size: 1rem;
+}
+
+/* -- containers -- */
+.flex {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.flex2 {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+}
+
+.card {
+	background-color: #fff;
+	color: #333;
+	border-radius: 15px;
+	box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+	overflow: auto;
+}
+
+/* -- button -- */
+button,
+.btn {
+	display: inline-block;
+	background: var(--light-color);
+	color: #333;
+	padding: 7px 15px;
+	font-size: 1rem;
+	margin-right: 0.5rem;
+	border: none;
+	cursor: pointer;
+	transition: opacity 0.2s ease-in;
+	outline: none;
+	border-radius: 5px;
+}
+
+.btn-primary,
+.bg-primary,
+.badge-primary,
+.alert-primary {
+	background: var(--primary-color);
+	color: rgb(255, 255, 255);
+}
+
+.btn-light,
+.bg-light,
+.badge-light,
+.alert-light {
+	background: var(--light-color);
+	color: #333;
+}
+
+.btn-dark,
+.bg-dark,
+.badge-dark,
+.alert-dark {
+	background: var(--dark-color);
+	color: #fff;
+}
+
+.btn-danger,
+.bg-danger,
+.badge-danger,
+.alert-danger {
+	background: var(--danger-color);
+	color: rgb(255, 255, 255);
+}
+
+.btn-success,
+.bg-success,
+.badge-success,
+.alert-success {
+	background: var(--success-color);
+	color: rgb(255, 255, 255);
+}

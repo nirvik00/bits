@@ -1,0 +1,137 @@
+/* --- */
+.item1 {
+	grid-area: loaders;
+}
+.item2 {
+	grid-area: query;
+}
+
+.item3 {
+	grid-area: viewer;
+}
+.item4 {
+	grid-area: controls;
+}
+.item5 {
+	grid-area: properties;
+}
+
+.grid-container {
+	display: grid;
+	grid-template-areas:
+		'loaders viewer viewer  viewer  properties'
+		'loaders viewer viewer  viewer  properties'
+		'loaders viewer viewer  viewer  properties'
+		'loaders controls controls controls  controls';
+	grid-gap: 10px;
+	font-size: 0.75rem;
+	height: 100vh;
+	overflow: hidden;
+	word-wrap: break-word;
+}
+
+.grid-container > div {
+	box-sizing: border-box;
+	justify-content: space-evenly;
+	align-items: flex-start;
+}
+
+/* viewer 3d is centered -- not other divs */
+#viewerDiv3d {
+	background: rgb(255, 255, 255);
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	min-height: 800px;
+}
+
+.item4 {
+	min-height: 5rem;
+	padding: 20px 10px;
+}
+
+.grid-container .item5 {
+	justify-content: flex-start;
+	align-items: flex-start;
+	padding: 1rem 1rem;
+	min-width: 350px;
+	min-width: 351px;
+	overflow-y: auto;
+	flex-wrap: wrap;
+}
+
+.upload-bar {
+	padding: 20px 0px;
+	margin-bottom: 2rem;
+}
+
+.div-panel {
+	border: 1px dashed rgb(136, 128, 128);
+	border-radius: 15px;
+	padding: 1rem 1rem;
+	margin: 0.5rem 0;
+}
+
+/* Forms */
+.form-container {
+	display: flex;
+	flex-direction: column;
+	width: auto;
+	text-align: center;
+}
+
+.form .form-group {
+	justify-content: center;
+	align-items: center;
+}
+
+.form .form-text {
+	margin-top: 0.3rem;
+	color: #888;
+}
+
+.form input[type='text'],
+.form input[type='email'],
+.form input[type='password'],
+.form input[type='date'],
+.form select,
+.form textarea {
+	display: block;
+	width: 350px;
+	padding: 1rem;
+	font-size: 0.75rem;
+	border: 1px solid #ccc;
+}
+
+.form input[type='submit'],
+button {
+	font: inherit;
+}
+
+/* Table */
+.table {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.collection-type-table {
+	display: block;
+	justify-content: left;
+	align-items: center;
+	text-align: left;
+}
+.collection-type-table td {
+	padding: 0.1rem 0.1rem;
+}
+
+.table th,
+.table td {
+	padding: 0.1rem 0.1rem;
+	text-align: center;
+	margin-left: 1rem;
+}
+
+.table th {
+	background: var(--light-color);
+}
