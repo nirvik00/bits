@@ -66,6 +66,22 @@ const Properties = ({ geomData, selObjects, intersectionData }) => {
 				))}
 			</div>
 		);
+	} else if (intersectionData && intersectionData.length > 0) {
+		return (
+			<div className='div-properties'>
+				{intersectionData.map((e) => (
+					<div key={Math.random() * 100}>
+						<h3>{e.type.toString()}</h3>
+						{e.elems.map((f) => (
+							<div className='flex2' key={Math.random() * 100}>
+								<p>{f.name.toString()}</p>
+								<p>{f.global_id.toString()}</p>
+							</div>
+						))}
+					</div>
+				))}
+			</div>
+		);
 	} else {
 		return (
 			<div className='div-properties'>

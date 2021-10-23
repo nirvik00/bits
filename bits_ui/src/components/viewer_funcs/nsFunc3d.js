@@ -26,45 +26,45 @@ function display(product_type) {
 		'IfcSpace',
 	];
 	if (product_type === 'IfcSlab') {
-		return { color: 0xfff000, opacity: 0.25, transparent: true };
+		return { color: 0xfff000, opacity: 0.5, transparent: true };
 	} else if (product_type === 'IfcWallStandardCase') {
-		return { color: 0xff0000, opacity: 0.25, transparent: true };
-	} else if (product_type === 'IfcStair') {
 		return { color: 0x999999, opacity: 0.25, transparent: true };
-	} else if (product_type === 'IfcBeam') {
-		return { color: 0x0000ff, opacity: 0.25, transparent: true };
-	} else if (product_type === 'IfcColumn') {
-		return { color: 0xff0000, opacity: 0.25, transparent: true };
 	} else if (product_type === 'IfcOpeningElement') {
-		return { color: 0xff00ff, opacity: 0.25, transparent: true };
+		return { color: 0xff00ff, opacity: 0.5, transparent: true };
 	} else if (product_type === 'IfcRoof') {
 		return { color: 0xff9812, opacity: 0.25, transparent: true };
-	} else if (product_type === 'IfcFooting') {
-		return { color: 0x00fe23, opacity: 0.25, transparent: true };
-	} else if (product_type === 'IfcRampFlight') {
-		return { color: 0x662ef1f, opacity: 0.25, transparent: true };
-	} else if (product_type === 'IfcStairFlight') {
-		return { color: 0x999999, opacity: 0.25, transparent: true };
-	} else if (product_type === 'IfcFlowTerminal') {
-		return { color: 0xfa00c2, opacity: 0.25, transparent: true };
-	} else if (product_type === 'IfcRailing') {
-		return { color: 0xaa0076, opacity: 0.25, transparent: true };
-	} else if (product_type === 'IfcMember') {
-		return { color: 0xbf0146, opacity: 0.25, transparent: true };
-	} else if (product_type === 'IfcFurnishingElement') {
-		return { color: 0xffbb46, opacity: 0.25, transparent: true };
 	} else if (product_type === 'IfcCovering') {
 		return { color: 0xabcdef, opacity: 0.25, transparent: true };
 	} else if (product_type === 'IfcPlate') {
-		return { color: 0x823040, opacity: 0.25, transparent: true };
+		return { color: 0x823040, opacity: 0.5, transparent: true };
 	} else if (product_type === 'IfcWindow') {
-		return { color: 0xa3fbbff, opacity: 0.25, transparent: true };
+		return { color: 0xa3fbbff, opacity: 0.15, transparent: true };
 	} else if (product_type === 'IfcDoor') {
-		return { color: 0xb3fbbff, opacity: 0.25, transparent: true };
+		return { color: 0xb3fbbff, opacity: 0.15, transparent: true };
 	} else if (product_type === 'IfcSpace') {
 		return { color: 0x00a288, opacity: 0.15, transparent: true };
+	} else if (product_type === 'IfcBeam') {
+		return { color: 0x0000ff, opacity: 0.5, transparent: false };
+	} else if (product_type === 'IfcColumn') {
+		return { color: 0xff0000, opacity: 0.5, transparent: false };
+	} else if (product_type === 'IfcFurnishingElement') {
+		return { color: 0xffbb46, opacity: 0.5, transparent: false };
+	} else if (product_type === 'IfcFooting') {
+		return { color: 0x00fe23, opacity: 0.5, transparent: false };
+	} else if (product_type === 'IfcRampFlight') {
+		return { color: 0x662ef1f, opacity: 0.5, transparent: false };
+	} else if (product_type === 'IfcStairFlight') {
+		return { color: 0x999999, opacity: 0.5, transparent: false };
+	} else if (product_type === 'IfcStair') {
+		return { color: 0x999999, opacity: 0.5, transparent: false };
+	} else if (product_type === 'IfcRailing') {
+		return { color: 0xaa0076, opacity: 0.5, transparent: false };
+	} else if (product_type === 'IfcMember') {
+		return { color: 0xbf0146, opacity: 0.5, transparent: false };
+	} else if (product_type === 'IfcFlowTerminal') {
+		return { color: 0xfa00c2, opacity: 0.5, transparent: false };
 	} else {
-		return { color: 0x999f00, opacity: 0.15, transparent: true };
+		return { color: 0x999f00, opacity: 0.5, transparent: false };
 	}
 }
 

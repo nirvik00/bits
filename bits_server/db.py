@@ -153,26 +153,55 @@ class Database(object):
                 elem["props"]=r["props"]
                 intx_elems.append(elem)
             except:
-                print("\nerror")
+                pass
         return intx_elems
+
 
     #   func 9
     #   get difference between A and others distinct types in different files
     def difference_types_in_files(self, file_obj_arr):
-        types_arr2d=[]
-        for e in file_obj_arr:
-            collection= self.get_collection(e["name"], e["uuid"])
-            types=self.get_distinct_types_in_collection(collection)
-            name_arr=[]
-            for f in types:
-                name_arr.append(f["type"])
-            types_arr2d.append(name_arr)
+        target_ids =[]
+        col0= self.get_collection(file_obj_arr[0]["name"], file_obj_arr[0]["uuid"])
+        ids0=col0.find({}, {"global_id":1, "_id":0})
+        for f in ids0:
+            target_ids.append(f['global_id'])
+
+        print(target_ids)
+
+        diff_ids=[]
+        print(len(file_obj_arr))
+        for target_id in target_ids:
+            t=0
+            for i in range(1, len(file_obj_arr), 1):
+                print("next", i, file_obj_arr[i]["name"])
+                col=self.get_collection(file_obj_arr[i]["name"], file_obj_arr[i]["uuid"])
+                ids=col.find({}, {"global_id":1, "_id":0})
+                test_ids=[]
+                for f in ids:
+                    test_ids.append(f['global_id'])
+                if target_id in test_ids:
+                    t+=1
+            if t==0:
+                diff_ids.append(target_id)
         #
-        diff_arr=set(types_arr2d[0])
-        for i in range(1, len(types_arr2d)-1):
-            diff_arr= list(set.difference(set(diff_arr), set(types_arr2d[i])))
-        #
-        return diff_arr
+        doc= self.get_collection(file_obj_arr[0]["name"], file_obj_arr[0]["uuid"])
+        diff_elems=[]
+        for e in diff_ids:
+            r=doc.find_one({"global_id": e})
+            try:
+                elem={}
+                elem["global_id"]=r["global_id"]
+                elem["type"]=r["type"]
+                elem["name"]=r["name"]
+                elem["vertices"]=r["vertices"]
+                elem["faces"]=r["faces"]
+                elem["name"]=r["name"]
+                elem["props"]=r["props"]
+                diff_elems.append(elem)
+            except:
+                pass
+
+        return diff_elems
 
 
     #   func 15

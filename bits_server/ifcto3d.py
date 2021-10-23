@@ -53,8 +53,8 @@ def runExportFuncs(r_filename):
     product_li=[]
     for product in f.by_type("IfcProduct"):
         prod=product.is_a()
-        print(prod)
         props=[]
+        props_name=[]
         try:
             for definition in product.IsDefinedBy:
                 # To support IFC2X3, we need to filter our results.
@@ -63,12 +63,14 @@ def runExportFuncs(r_filename):
                     for property in property_set.HasProperties:
                         if property.is_a('IfcPropertySingleValue'):
                             try:
-                                if (prop_name == " " or prop_name==None):
-                                    prop_name="__unknown__"
                                 prop_name=str(property.Name).replace('.', '_')
                                 prop_name=str(property.Name).replace(' ', '_')
-                                x={prop_name: property.NominalValue.wrappedValue}
-                                props.append(x)
+                                if prop_name in props_name: 
+                                    continue
+                                else:
+                                    props_name.append(prop_name)
+                                    x={prop_name: property.NominalValue.wrappedValue}
+                                    props.append(x)
                             except:
                                 pass
                     if property_set.is_a('IfcPropertySet'):
@@ -77,13 +79,17 @@ def runExportFuncs(r_filename):
                                 prop_name=str(property.Name).replace('.', '_')
                                 prop_name=str(property.Name).replace(' ', '_')
                                 x={prop_name: property.NominalValue.wrappedValue}
-                                props.append(x)
+                                if prop_name in props_name: 
+                                    continue
+                                else:
+                                    props_name.append(prop_name)
+                                    x={prop_name: property.NominalValue.wrappedValue}
+                                    props.append(x)
                             except:
                                 pass
         except:
             pass
-        for prop in props:
-            print(prop)
+        
         if prod not in product_name_li:
             product_name_li.append(prod)
         try:

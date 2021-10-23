@@ -3,14 +3,18 @@ import axios from 'axios';
 
 const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 	const [btnClick, setBtnClick] = useState(false);
-	const [intersectionTypes, setIntersectionTypes] = useState([]);
+	/* const [intersectionTypes, setIntersectionTypes] = useState([]); */
 	const [showIntersection, setShowIntersection] = useState(false);
-	const [differenceTypes, setDifferenceTypes] = useState([]);
+	/* const [differenceTypes, setDifferenceTypes] = useState([]); */
 	const [showDifference, setShowDifference] = useState(false);
 
 	const toggleShow = (e) => {
 		e.preventDefault();
 		setBtnClick(!btnClick);
+	};
+
+	const clearQueryFiles = () => {
+		queryFile = [];
 	};
 
 	const intersectionTypeOps = async (queryFile) => {
@@ -36,7 +40,7 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 					},
 				}
 			);
-			setIntersectionTypes(out.data.types);
+			/* setIntersectionTypes(out.data.types); */
 			intersectionData(out);
 			console.log(out);
 			// intersectionData(out.data.msg);
@@ -67,7 +71,9 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 					},
 				}
 			);
-			setDifferenceTypes(out.data.msg);
+			/* setIntersectionTypes(out.data.types); */
+			intersectionData(out);
+			console.log(out);
 		} catch (err) {
 			console.error(err);
 		}
@@ -85,8 +91,7 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 		return (
 			<div>
 				<div className='flex2'>
-					<h1>Query</h1>
-					<h3> (set intersection / difference in IFC-SPF)</h3>
+					<h1>Set Operations on IFC data</h1>
 					<button className='btn btn-light' onClick={toggleShow}>
 						{btnClick ? (
 							<i className='fas fa-eye-slash'></i>
@@ -94,10 +99,20 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 							<i className='fas fa-eye'></i>
 						)}
 					</button>
+					<button className='btn btn-select' onClick={() => (queryFile = [])}>
+						<i className='fas fa-times'></i>
+					</button>
 				</div>
 
 				{btnClick && (
 					<div>
+						{queryFile && queryFile.length > 0 && (
+							<div className='flex2 key={Math.random()*100}'>
+								<h2>Target: </h2>
+								<p> {queryFile[0].name} </p>
+								<p> {queryFile[0].uuid} </p>
+							</div>
+						)}
 						<section>
 							<table>
 								<tbody>
@@ -115,38 +130,17 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 						</section>
 						<br />
 						<div className='flex2'>
-							{showIntersection && (
-								<button
-									className='btn btn-primary'
-									onClick={() => intersectionTypeOps(queryFile)}>
-									Intersection Types
-								</button>
-							)}
-							{!showIntersection && (
-								<button
-									className='btn btn-danger'
-									onClick={() => intersectionTypeOps(queryFile)}>
-									Intersection Types
-								</button>
-							)}
+							<button
+								className='btn btn-select'
+								onClick={() => intersectionTypeOps(queryFile)}>
+								Common Elements
+							</button>
+
 							<button
 								className='btn btn-select'
 								onClick={() => differenceTypeOps(queryFile)}>
-								Difference Types
+								Difference in Elements
 							</button>
-						</div>
-						<div>
-							{showDifference && differenceTypes.length && (
-								<div className='div-panel' key={Math.random() * 100}>
-									<br />
-									<h2>Difference</h2>
-									{differenceTypes.map((e) => (
-										<div key={Math.random() * 100}>
-											<p>{e.type.toString()}</p>
-										</div>
-									))}
-								</div>
-							)}
 						</div>
 					</div>
 				)}
@@ -155,8 +149,8 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 	} else {
 		return (
 			<div className='flex2'>
-				<h1>Query</h1>
-				<h3> Select from Database (press ? next to entry)</h3>
+				<h1>Set Operations</h1>
+				<h3>Select from Database (press ? next to entry)</h3>
 			</div>
 		);
 	}

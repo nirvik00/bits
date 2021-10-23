@@ -22,6 +22,7 @@ const LoadFromDB = ({ typeDataFromCollection, queryFileArr }) => {
 		});
 		setCollections(out.data.collections);
 		queryFileArr([]);
+		queryFileArrFunc([]);
 	};
 
 	const toggleShow = (e) => {

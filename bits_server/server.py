@@ -201,7 +201,23 @@ def difference_types():
         #
         db=Database()
         difference_arr=db.difference_types_in_files(file_obj_arr)
-        return jsonify({"msg": difference_arr})
+        type_arr=[]
+        for e in difference_arr:
+            t=e["type"]
+            if t not in type_arr:
+                type_arr.append(t)
+        #
+        ret_arr=[]
+        for t in type_arr:
+            obj={}
+            obj["type"] =t
+            elems=[]
+            for e in difference_arr:
+                if e["type"] == t:
+                    elems.append(e)
+            obj["elems"] = elems
+            ret_arr.append(obj)
+        return jsonify({"products": difference_arr, "types": ret_arr})
     else:
         print("try post request")
         return jsonify({"msg": "try post request"})

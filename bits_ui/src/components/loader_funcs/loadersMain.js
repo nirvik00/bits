@@ -8,6 +8,7 @@ const Loaders = ({ getGeomData, intersectionDataX }) => {
 	const [queryFile, setQueryFile] = useState([]);
 	const [btnClick, setBtnClick] = useState(true);
 
+	// can be intersection or difference
 	const intersectionData = (intxData) => {
 		intersectionDataX(intxData);
 		getGeomData(intxData, false);
@@ -96,6 +97,7 @@ const Loaders = ({ getGeomData, intersectionDataX }) => {
 							<i className='fas fa-eye'></i>
 						)}
 					</button>
+					
 				</div>
 
 				{btnClick && (
