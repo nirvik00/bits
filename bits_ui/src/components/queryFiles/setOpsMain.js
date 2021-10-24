@@ -13,8 +13,11 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 		setBtnClick(!btnClick);
 	};
 
+	useEffect(() => {}, [queryFile]);
+
 	const clearQueryFiles = () => {
 		queryFile = [];
+		intersectionData([]);
 	};
 
 	const intersectionTypeOps = async (queryFile) => {
@@ -40,10 +43,7 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 					},
 				}
 			);
-			/* setIntersectionTypes(out.data.types); */
 			intersectionData(out);
-			console.log(out);
-			// intersectionData(out.data.msg);
 		} catch (err) {
 			console.error(err);
 		}
@@ -71,7 +71,6 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 					},
 				}
 			);
-			/* setIntersectionTypes(out.data.types); */
 			intersectionData(out);
 			console.log(out);
 		} catch (err) {
@@ -91,7 +90,7 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 		return (
 			<div>
 				<div className='flex2'>
-					<h1>Set Operations on IFC data</h1>
+					<h1>Set Operations on IFC files</h1>
 					<button className='btn btn-light' onClick={toggleShow}>
 						{btnClick ? (
 							<i className='fas fa-eye-slash'></i>

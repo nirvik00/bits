@@ -16,7 +16,7 @@ from db import Database
 app=Flask(__name__)
 cors = CORS(app)
 
-#   end point 1
+#   end point 01
 #   test url
 @app.route("/", methods= ["GET"])
 def start():
@@ -24,7 +24,7 @@ def start():
     print(s)
     return jsonify(s)
 
-#   end point 2
+#   end point 02
 #   only return the document - do not upload to db
 #   ui: loadersMain.js
 @app.route("/review-ifc-spf", methods=["POST", "GET"])
@@ -53,7 +53,7 @@ def review_ifc_spf():
     else:
         return  jsonify({"msg":"try POST method"})
 
-#   end point 3
+#   end point 03
 #   return the document and upload to db
 #   ui: loadersMain.js
 @app.route("/upload-ifc-spf", methods=["POST", "GET"])
@@ -80,7 +80,7 @@ def upload_ifc_spf():
 
         # db upload
         db=Database()
-        db.write_json(col_name, data_arr)
+        db.upload_json_arr(col_name, data_arr)
 
         print("upload complete")
         return x
@@ -88,13 +88,7 @@ def upload_ifc_spf():
         print("error in upload")
         return  jsonify({"msg":"try POST method"})
 
-""" #   function 1
-#   function to upload ifc file to db
-def send_to_db(col_name, data_arr):
-    db = Database()
-    db.write_json(col_name, data_arr) """
-
-#   end point 4
+#   end point 04
 #   return all collections in db- bits
 #   ui: loadFromDB.js
 @app.route("/get-col-from-dbs", methods=["GET", "POST"])
@@ -104,7 +98,7 @@ def get_from_dbs():
     t=json.dumps({"collections":x})
     return t
 
-#   end point 5
+#   end point 05
 #   return all distinct types from given collection name & uuid
 #   ui: collectionObj.js
 @app.route("/get-types-col", methods=["GET", "POST"])
@@ -121,7 +115,7 @@ def get_col():
         print("try post request")
         return jsonify({"msg": "try post request"})
 
-#   end point 6
+#   end point 06
 #   return all props of distinct types from given collection name & uuid
 #   ui: collectionObj.js
 @app.route("/get-types-data-col", methods=["GET", "POST"])
@@ -141,7 +135,7 @@ def get_col_type_props():
         print("try post request")
         return jsonify({"msg": "try post request"})
 
-#   end point 7
+#   end point 07
 #   union distinct types in different files
 @app.route("/track-in-files", methods=["GET", "POST"])
 def union_types():
@@ -158,7 +152,7 @@ def union_types():
         print("try post request")
         return jsonify({"msg": "try post request"})
 
-#   end point 8
+#   end point 08
 #   intersection distinct types in different files
 @app.route("/intersection-in-files", methods=["GET", "POST"])
 def intersection_types():
@@ -168,7 +162,7 @@ def intersection_types():
         file_obj_arr=json.loads(namex)
         #
         db=Database()
-        intersection_arr=db.intersection_types_in_files(file_obj_arr)
+        intersection_arr=db.intersection_elems_in_files(file_obj_arr)
         type_arr=[]
         for e in intersection_arr:
             t=e["type"]
@@ -190,7 +184,7 @@ def intersection_types():
         print("try post request")
         return jsonify({"msg": "try post request"})
 
-#   end point 9
+#   end point 09
 #   difference distinct types in different files
 @app.route("/difference-in-files", methods=["GET", "POST"])
 def difference_types():
@@ -200,7 +194,7 @@ def difference_types():
         file_obj_arr=json.loads(namex)
         #
         db=Database()
-        difference_arr=db.difference_types_in_files(file_obj_arr)
+        difference_arr=db.difference_elems_in_files(file_obj_arr)
         type_arr=[]
         for e in difference_arr:
             t=e["type"]

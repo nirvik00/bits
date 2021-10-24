@@ -7,6 +7,10 @@ Created on Wed Oct  13 04:41:54 2021
 from pymongo import MongoClient
 from uuid import UUID
 import json
+from datetime import datetime
+import time
+
+
 
 class Database(object):
     #
@@ -18,7 +22,7 @@ class Database(object):
         self.client = MongoClient(self.u, uuidRepresentation="standard")
         self.db = self.client[self.db_name]
         
-    #   func 0
+    #   func 01
     #   general functions
     def general_functions(self, collection):
         one_docs=collection.find_one()
@@ -29,13 +33,13 @@ class Database(object):
         for doc in all_docs:
             print(doc["type"])
 
-    #   func 1
+    #   func 02
     #   get all dbs
     def list_databases(self):
         for db in self.client.list_databases():
             print(db)
 
-    #   func 2
+    #   func 03
     #   get all the collections - ifc files in the db
     def list_collections(self):
         col=[]
@@ -48,15 +52,16 @@ class Database(object):
                 print("error:\n", i["name"])
         return col
 
-    #   func 3
+    #   func 04
     #   upload a ifc-json file - add collection to db
-    def write_json(self, col_name, arr):
+    def upload_json_arr(self, col_name, arr):
         self.col = col_name
         for e in arr["data"]:
             t=json.loads(e)
+            t["date"] = datetime.now()
             self.db[self.col].insert(t)
 
-    #   func 4
+    #   func 05
     #   get collection from name and uuid 
     def get_collection(self, name, uuid):
         req_col=None #   this is the required collection
@@ -67,7 +72,7 @@ class Database(object):
         n=req_col.count_documents({}) # unnecessary
         return req_col
         
-    #   func 5
+    #   func 06
     #   get distinct types in a collection from func -2
     def get_distinct_types_in_collection(self, collection):
         distinct_types=collection.distinct("type")
@@ -86,7 +91,7 @@ class Database(object):
         
         return distinct_types_obj
 
-    #   func 6
+    #   func 07
     #   get data of distinct types in a collection from func -2
     def get_type_data_from_collection(self, collection, typex):
         type_data=[]
@@ -101,7 +106,7 @@ class Database(object):
             type_data.append(fields)
         return type_data
 
-    #   func 7
+    #   func 08
     #   get union of distinct types in different files
     def union_types_in_files(self, file_obj_arr):
         all_elems=[]
@@ -112,9 +117,9 @@ class Database(object):
                 all_elems.append(i)
         return all_elems
 
-    #   func 8
+    #   func 09
     #   get intersection of distinct types in different files
-    def intersection_types_in_files(self, file_obj_arr):
+    def intersection_elems_in_files(self, file_obj_arr):
         all_elems=[]
         all_docs=[]
         for e in file_obj_arr:
@@ -156,24 +161,19 @@ class Database(object):
                 pass
         return intx_elems
 
-
-    #   func 9
+    #   func 10
     #   get difference between A and others distinct types in different files
-    def difference_types_in_files(self, file_obj_arr):
+    def difference_elems_in_files(self, file_obj_arr):
         target_ids =[]
         col0= self.get_collection(file_obj_arr[0]["name"], file_obj_arr[0]["uuid"])
         ids0=col0.find({}, {"global_id":1, "_id":0})
         for f in ids0:
             target_ids.append(f['global_id'])
 
-        print(target_ids)
-
         diff_ids=[]
-        print(len(file_obj_arr))
         for target_id in target_ids:
             t=0
             for i in range(1, len(file_obj_arr), 1):
-                print("next", i, file_obj_arr[i]["name"])
                 col=self.get_collection(file_obj_arr[i]["name"], file_obj_arr[i]["uuid"])
                 ids=col.find({}, {"global_id":1, "_id":0})
                 test_ids=[]
@@ -203,27 +203,21 @@ class Database(object):
 
         return diff_elems
 
-
-    #   func 15
+    #   func 11
     #   run mongodb queries in python
     def query(self, collection):
         query={"type": "IfcWallStandardCase"}
-        doc=collection.find(query)
+        fields={"type":1, "props.Area": 1, "props.Volume": 1, "_id":0}
+        doc=collection.find(query, fields)
         for i in doc:
-            print(i)
+            props=[ e for e in i["props"] if len(e) != 0]
+            print(props)
 
 
 
-"""
-# DRIVER FUNCTION
 
-a, b="fullHouse", "ebd9a5b1-addd-42db-a8f5-afba3cd59b24"
-c, d="wall_door", "d3971ecb-ea00-42d6-90b4-a6eadc3dcf9d"
-e, f="walls_doors_general", "eb5fbca0-bb15-4c11-82b4-8e069bb2ae63" 
 
-db=Database()
-col=db.get_collection(a, b) 
-#   col_type_data=db.get_type_data_from_collection(col, "IfcWallStandardCase")
-db.query(col)
+# DRIVER FUNCTION: file=db_test.py
 
-"""
+
+

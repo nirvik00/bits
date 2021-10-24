@@ -14,29 +14,8 @@ files_arr=[{"name": e, "uuid": f},  {"name": a, "uuid": b}]
 """ files_arr=[{"name": a, "uuid": b}]  """
 
 # elems= db.intersection_types_in_files(files_arr)
+# elems= db.difference_types_in_files(files_arr)
 
-elems= db.difference_types_in_files(files_arr)
+col=db.get_collection(a,b)
+elems= db.query(col)
 
-""" 
-a=[1,2,3]
-b=[3,5]
-c=[6,3,1]
-d=[]
-arr=[a,b,c]
-
-x=[]
-x+=a
-x+=b
-x+=c
-
-y=[]
-for e in x:
-    t=0
-    for i in range(0,len(arr)):
-        if (e in arr[i]):
-            t+=1
-    if t == len(arr):
-        y.append(e)
-
-z=list(set(y))
-print("common elements: ", z) """
