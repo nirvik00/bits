@@ -14,7 +14,6 @@ const Viewer = ({ geomData, getSelObjects, controlOpt, clearAllObjects }) => {
 	//
 	useEffect(() => {
 		if (geomData.data) {
-			console.log(geomData);
 			generate3dView();
 		}
 	}, [geomData]);
@@ -81,8 +80,6 @@ const Viewer = ({ geomData, getSelObjects, controlOpt, clearAllObjects }) => {
 		//
 		addLight(scene3d);
 		//
-		console.log(geomData);
-
 		if (!geomData.data) return;
 		clearObj();
 		let product_data = geomData.data.products;

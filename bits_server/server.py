@@ -24,6 +24,7 @@ def start():
     print(s)
     return jsonify(s)
 
+
 #   end point 02
 #   only return the document - do not upload to db
 #   ui: loadersMain.js
@@ -52,6 +53,7 @@ def review_ifc_spf():
         return x
     else:
         return  jsonify({"msg":"try POST method"})
+
 
 #   end point 03
 #   return the document and upload to db
@@ -88,6 +90,7 @@ def upload_ifc_spf():
         print("error in upload")
         return  jsonify({"msg":"try POST method"})
 
+
 #   end point 04
 #   return all collections in db- bits
 #   ui: loadFromDB.js
@@ -97,6 +100,7 @@ def get_from_dbs():
     x=db.list_collections()
     t=json.dumps({"collections":x})
     return t
+
 
 #   end point 05
 #   return all distinct types from given collection name & uuid
@@ -114,6 +118,7 @@ def get_col():
     else:
         print("try post request")
         return jsonify({"msg": "try post request"})
+
 
 #   end point 06
 #   return all props of distinct types from given collection name & uuid
@@ -135,6 +140,7 @@ def get_col_type_props():
         print("try post request")
         return jsonify({"msg": "try post request"})
 
+
 #   end point 07
 #   union distinct types in different files
 @app.route("/track-in-files", methods=["GET", "POST"])
@@ -151,6 +157,7 @@ def union_types():
     else:
         print("try post request")
         return jsonify({"msg": "try post request"})
+
 
 #   end point 08
 #   intersection distinct types in different files
@@ -183,6 +190,7 @@ def intersection_types():
     else:
         print("try post request")
         return jsonify({"msg": "try post request"})
+
 
 #   end point 09
 #   difference distinct types in different files
@@ -217,6 +225,19 @@ def difference_types():
         return jsonify({"msg": "try post request"})
 
 
+#   end point 10
+#   query on file (s)
+@app.route("/query", methods=["GET", "POST"])
+def query():
+    print("running query")
+    if request.method=="POST":
+        namex=request.form["fileobjarr"]
+        file_obj_arr=json.loads(namex)
+        print(file_obj_arr)
+        return
+    else:
+        print("try post request")
+        return jsonify({"msg": "try post request"})
 
 if __name__ == "main":
     app.run()

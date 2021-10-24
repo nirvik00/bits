@@ -11,7 +11,7 @@ function App() {
 	/* const [loadCollection, setLoadCollection] = useState([]); */
 	const [selObjects, setSelObjects] = useState([]);
 	const [controlOpt, setcontrolOpt] = useState([]);
-	const [intersectionData, setIntersectionData] = useState([]);
+	const [setOpsData, setSetOpsData] = useState([]);
 
 	/* const [camPos, setCamPos] = useState({ x: 25, y: 25, z: 25 }); */
 
@@ -57,18 +57,14 @@ function App() {
 		}
 	};
 
-	const intersectionDataX = (x) => {
-		setIntersectionData(x);
-		console.log(x);
+	const setOpsDataX = (x) => {
+		setSetOpsData(x);
 	};
 
 	return (
 		<div className='grid-container'>
 			<div className='item1 card flex'>
-				<Loaders
-					getGeomData={getGeomData}
-					intersectionDataX={intersectionDataX}
-				/>
+				<Loaders getGeomData={getGeomData} setOpsDataX={setOpsDataX} />
 			</div>
 
 			<div className='item3 card flex' id='viewerDiv3d'>
@@ -88,7 +84,7 @@ function App() {
 				<Properties
 					geomData={geomData}
 					selObjects={selObjects}
-					intersectionData={intersectionData}
+					setOpsDataX={setOpsDataX}
 				/>
 			</div>
 		</div>

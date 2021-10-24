@@ -103,17 +103,26 @@ export const genGeomFunc = (product_data) => {
 			let box = new THREE.Box3();
 			me.geometry.computeBoundingBox();
 			const boxMe = new THREE.BoxHelper(me, 0xffff00);
+			let prod_name = 'unknown';
+			try {
+				product_data[i].name.length > 0
+					? (prod_name = product_data[i].name)
+					: (prod_name = 'unknown');
+			} catch (err) {
+				prod_name = 'unknown';
+			}
+
 			//
 			let obj2 = {
 				type: product_data[i].type,
 				globalId: product_data[i].global_id,
-				name: product_data[i].name,
+				name: prod_name,
 				mesh: me,
 				color: D.color,
 				opacity: D.opacity,
 				transparent: true,
 				selected: false,
-				props: product_data[i].props,
+				properties: product_data[i].properties,
 				box,
 				boxMe,
 			};

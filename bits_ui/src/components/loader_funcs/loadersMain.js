@@ -2,15 +2,16 @@ import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 import LoadFromDB from './loadFromDB';
 import SetOperationsTypes from '../queryFiles/setOpsMain';
+import Query from '../queryFiles/query';
 
-const Loaders = ({ getGeomData, intersectionDataX }) => {
+const Loaders = ({ getGeomData, setOpsDataX }) => {
 	const [uploadFile, setUploadFile] = useState('');
 	const [queryFile, setQueryFile] = useState([]);
 	const [btnClick, setBtnClick] = useState(true);
 
 	// can be intersection or difference
-	const intersectionData = (intxData) => {
-		intersectionDataX(intxData);
+	const setOpsData = (intxData) => {
+		setOpsDataX(intxData);
 		getGeomData(intxData, false);
 	};
 
@@ -97,7 +98,6 @@ const Loaders = ({ getGeomData, intersectionDataX }) => {
 							<i className='fas fa-eye'></i>
 						)}
 					</button>
-					
 				</div>
 
 				{btnClick && (
@@ -123,10 +123,10 @@ const Loaders = ({ getGeomData, intersectionDataX }) => {
 			/>
 			<br />
 			<br />
-			<SetOperationsTypes
-				queryFile={queryFile}
-				intersectionData={intersectionData}
-			/>
+			<Query queryFile={queryFile} />
+			<br />
+			<br />
+			<SetOperationsTypes queryFile={queryFile} setOpsData={setOpsData} />
 		</div>
 	);
 };

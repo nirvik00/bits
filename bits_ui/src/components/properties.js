@@ -40,7 +40,7 @@ const Properties = ({ geomData, selObjects, intersectionData }) => {
 							<p>Name: {e.name.substring(0, maxStringLength)}</p>
 							<h2>Properties:</h2>
 							{expandProps &&
-								e.props.map((r) => (
+								e.properties.map((r) => (
 									<p key={Math.random() * 100000}>
 										{Object.keys(r).toString().substring(0, maxStringLength)} :
 										{Object.values(r).toString().substring(0, maxStringLength)}

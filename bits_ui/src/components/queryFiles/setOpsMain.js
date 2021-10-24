@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const SetOperationsTypes = ({ queryFile, intersectionData }) => {
+const SetOperationsTypes = ({ queryFile, setOpsData }) => {
 	const [btnClick, setBtnClick] = useState(false);
 	/* const [intersectionTypes, setIntersectionTypes] = useState([]); */
 	const [showIntersection, setShowIntersection] = useState(false);
@@ -11,13 +11,6 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 	const toggleShow = (e) => {
 		e.preventDefault();
 		setBtnClick(!btnClick);
-	};
-
-	useEffect(() => {}, [queryFile]);
-
-	const clearQueryFiles = () => {
-		queryFile = [];
-		intersectionData([]);
 	};
 
 	const intersectionTypeOps = async (queryFile) => {
@@ -43,13 +36,14 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 					},
 				}
 			);
-			intersectionData(out);
+			setOpsData(out);
 		} catch (err) {
 			console.error(err);
 		}
 	};
 
 	const differenceTypeOps = async (queryFile) => {
+		setShowDifference(!showDifference);
 		let i = 0;
 		queryFile.forEach((e) => {
 			if (Array.isArray(e)) {
@@ -57,7 +51,6 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 			}
 			i++;
 		});
-		setShowDifference(!showDifference);
 		const dataArray = new FormData();
 		dataArray.append('fileobjarr', JSON.stringify(queryFile));
 		try {
@@ -71,8 +64,7 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 					},
 				}
 			);
-			intersectionData(out);
-			console.log(out);
+			setOpsData(out);
 		} catch (err) {
 			console.error(err);
 		}
@@ -90,7 +82,7 @@ const SetOperationsTypes = ({ queryFile, intersectionData }) => {
 		return (
 			<div>
 				<div className='flex2'>
-					<h1>Set Operations on IFC files</h1>
+					<h1>Set Operations on IFC data</h1>
 					<button className='btn btn-light' onClick={toggleShow}>
 						{btnClick ? (
 							<i className='fas fa-eye-slash'></i>

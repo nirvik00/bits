@@ -21,7 +21,8 @@ class Database(object):
         self.u = "mongodb://localhost:27017"
         self.client = MongoClient(self.u, uuidRepresentation="standard")
         self.db = self.client[self.db_name]
-        
+
+
     #   func 01
     #   general functions
     def general_functions(self, collection):
@@ -33,11 +34,13 @@ class Database(object):
         for doc in all_docs:
             print(doc["type"])
 
+
     #   func 02
     #   get all dbs
     def list_databases(self):
         for db in self.client.list_databases():
             print(db)
+
 
     #   func 03
     #   get all the collections - ifc files in the db
@@ -52,6 +55,7 @@ class Database(object):
                 print("error:\n", i["name"])
         return col
 
+
     #   func 04
     #   upload a ifc-json file - add collection to db
     def upload_json_arr(self, col_name, arr):
@@ -60,6 +64,7 @@ class Database(object):
             t=json.loads(e)
             t["date"] = datetime.now()
             self.db[self.col].insert(t)
+
 
     #   func 05
     #   get collection from name and uuid 
@@ -71,7 +76,8 @@ class Database(object):
                 break
         n=req_col.count_documents({}) # unnecessary
         return req_col
-        
+
+
     #   func 06
     #   get distinct types in a collection from func -2
     def get_distinct_types_in_collection(self, collection):
@@ -91,6 +97,7 @@ class Database(object):
         
         return distinct_types_obj
 
+
     #   func 07
     #   get data of distinct types in a collection from func -2
     def get_type_data_from_collection(self, collection, typex):
@@ -102,9 +109,10 @@ class Database(object):
             fields["vertices"]= i["vertices"]
             fields["faces"]= i["faces"]
             fields["name"]= i["name"]
-            fields["props"]= i["props"]
+            fields["properties"]= i["properties"]
             type_data.append(fields)
         return type_data
+
 
     #   func 08
     #   get union of distinct types in different files
@@ -116,6 +124,7 @@ class Database(object):
             for i in docs:
                 all_elems.append(i)
         return all_elems
+
 
     #   func 09
     #   get intersection of distinct types in different files
@@ -155,11 +164,12 @@ class Database(object):
                 elem["vertices"]=r["vertices"]
                 elem["faces"]=r["faces"]
                 elem["name"]=r["name"]
-                elem["props"]=r["props"]
+                elem["properties"]=r["properties"]
                 intx_elems.append(elem)
             except:
                 pass
         return intx_elems
+
 
     #   func 10
     #   get difference between A and others distinct types in different files
@@ -196,22 +206,23 @@ class Database(object):
                 elem["vertices"]=r["vertices"]
                 elem["faces"]=r["faces"]
                 elem["name"]=r["name"]
-                elem["props"]=r["props"]
+                elem["properties"]=r["properties"]
                 diff_elems.append(elem)
             except:
                 pass
 
         return diff_elems
 
+
     #   func 11
     #   run mongodb queries in python
     def query(self, collection):
         query={"type": "IfcWallStandardCase"}
-        fields={"type":1, "props.Area": 1, "props.Volume": 1, "_id":0}
+        fields={"type":1, "properties.Area": 1, "properties.Volume": 1, "_id":0}
         doc=collection.find(query, fields)
         for i in doc:
-            props=[ e for e in i["props"] if len(e) != 0]
-            print(props)
+            properties=[ e for e in i["properties"] if len(e) != 0]
+            print(properties)
 
 
 

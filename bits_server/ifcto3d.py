@@ -41,11 +41,9 @@ def write_to_file(prod):
     json.dump(prod, f, indent=4)
     f.close()
 
+
 def runExportFuncs(r_filename):
     print("running export funcs")
-    """ with open("res.json", "w") as file2:
-        file2.writelines("") """
-    
     settings = geom.settings()
     settings.set(settings.USE_WORLD_COORDS, True)
     f = ifcopenshell.open(r_filename)
@@ -63,8 +61,12 @@ def runExportFuncs(r_filename):
                     for property in property_set.HasProperties:
                         if property.is_a('IfcPropertySingleValue'):
                             try:
+                                prop_name=str(property.Name).strip()
+                                if len(prop_name) <1:
+                                    prop_name="unknown"
                                 prop_name=str(property.Name).replace('.', '_')
                                 prop_name=str(property.Name).replace(' ', '_')
+                                prop_name=prop_name.lower()
                                 if prop_name in props_name: 
                                     continue
                                 else:
@@ -76,8 +78,12 @@ def runExportFuncs(r_filename):
                     if property_set.is_a('IfcPropertySet'):
                         for property in property_set.HasProperties:
                             try:
+                                prop_name=str(property.Name).strip()
+                                if len(prop_name) <1:
+                                    prop_name="unknown"
                                 prop_name=str(property.Name).replace('.', '_')
                                 prop_name=str(property.Name).replace(' ', '_')
+                                prop_name=prop_name.lower()
                                 x={prop_name: property.NominalValue.wrappedValue}
                                 if prop_name in props_name: 
                                     continue
@@ -97,8 +103,11 @@ def runExportFuncs(r_filename):
             geo = shape.geometry
             obj_verts = procVerts(geo.verts)
             obj_faces = procFaces(obj_verts, geo.faces)
+            prod_name="unknown"
+            if len(product.Name.strip()) >1:
+                prod_name=product.Name
             #
-            prod= json.dumps({"global_id": product.GlobalId, "type": product.is_a(), "vertices": obj_verts, "faces": obj_faces, "name": product.Name, "props": props})
+            prod= json.dumps({"global_id": product.GlobalId, "type": product.is_a(), "vertices": obj_verts, "faces": obj_faces, "name": prod_name, "properties": props})
 
             product_li.append(prod)
             #
