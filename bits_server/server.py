@@ -143,17 +143,15 @@ def get_col_type_props():
 
 #   end point 07
 #   union distinct types in different files
-@app.route("/track-in-files", methods=["GET", "POST"])
+@app.route("/union-types-in-files", methods=["GET", "POST"])
 def union_types():
-    print("get union types in files")
     if request.method == "POST":
         namex=request.form["fileobjarr"]
         file_obj_arr=json.loads(namex)
         #
         db=Database()
-        union_arr=db.union_types_in_files(file_obj_arr)
-        print("\nunion: ", union_arr)
-        return jsonify({"msg": union_arr})
+        union_arr=db.union_types_props_in_files(file_obj_arr)
+        return jsonify({"types": union_arr[0], "properties": union_arr[1]})
     else:
         print("try post request")
         return jsonify({"msg": "try post request"})
@@ -238,6 +236,7 @@ def query():
     else:
         print("try post request")
         return jsonify({"msg": "try post request"})
+
 
 if __name__ == "main":
     app.run()

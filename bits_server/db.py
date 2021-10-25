@@ -93,8 +93,7 @@ class Database(object):
         for doc in all_docs:
             for obj in distinct_types_obj:
                 if  doc["type"] == obj["type"]:
-                    obj["count"]=obj["count"]+1  
-        
+                    obj["count"]=obj["count"]+1 
         return distinct_types_obj
 
 
@@ -116,14 +115,22 @@ class Database(object):
 
     #   func 08
     #   get union of distinct types in different files
-    def union_types_in_files(self, file_obj_arr):
-        all_elems=[]
+    def union_types_props_in_files(self, file_obj_arr):
+        all_types=[]
+        all_props=[]
         for e in file_obj_arr:
             collection= self.get_collection(e["name"], e["uuid"])
-            docs=collection.find()
-            for i in docs:
-                all_elems.append(i)
-        return all_elems
+            types=collection.distinct("type")
+            for ty in types:
+                if ty not in all_types:
+                    all_types.append(ty)
+            prop_arr=collection.distinct("properties")
+            for prop in prop_arr:
+                keys=prop.keys()
+                for key in keys:
+                    if key not in all_props:
+                        all_props.append(key)
+        return [all_types, all_props]
 
 
     #   func 09

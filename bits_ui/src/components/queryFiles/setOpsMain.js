@@ -3,9 +3,7 @@ import axios from 'axios';
 
 const SetOperationsTypes = ({ queryFile, setOpsData }) => {
 	const [btnClick, setBtnClick] = useState(false);
-	/* const [intersectionTypes, setIntersectionTypes] = useState([]); */
 	const [showIntersection, setShowIntersection] = useState(false);
-	/* const [differenceTypes, setDifferenceTypes] = useState([]); */
 	const [showDifference, setShowDifference] = useState(false);
 
 	const toggleShow = (e) => {
@@ -82,16 +80,13 @@ const SetOperationsTypes = ({ queryFile, setOpsData }) => {
 		return (
 			<div>
 				<div className='flex2'>
-					<h1>Set Operations on IFC data</h1>
+					<h1>Set Operations </h1>
 					<button className='btn btn-light' onClick={toggleShow}>
 						{btnClick ? (
 							<i className='fas fa-eye-slash'></i>
 						) : (
 							<i className='fas fa-eye'></i>
 						)}
-					</button>
-					<button className='btn btn-select' onClick={() => (queryFile = [])}>
-						<i className='fas fa-times'></i>
 					</button>
 				</div>
 
@@ -139,9 +134,9 @@ const SetOperationsTypes = ({ queryFile, setOpsData }) => {
 		);
 	} else {
 		return (
-			<div className='flex2'>
+			<div>
 				<h1>Set Operations</h1>
-				<h3>Select from Database (press ? next to entry)</h3>
+				<h3>(Select files: press ? next to database entry)</h3>
 			</div>
 		);
 	}

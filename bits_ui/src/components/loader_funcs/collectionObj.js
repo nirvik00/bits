@@ -28,7 +28,7 @@ const CollectionObject = ({ collection, typeData, queryFileArr }) => {
 		dataArray.append('name', collection.name);
 		dataArray.append('uuid', collection.uuid);
 		try {
-			// end point 5
+			// end point 6
 			let out = await axios.post(
 				'http://192.168.1.151:5000/get-types-col',
 				dataArray,

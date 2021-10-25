@@ -36,7 +36,7 @@ const LoadFromDB = ({ typeDataFromCollection, queryFileArr }) => {
 
 	const xh = (
 		<div className='flex2'>
-			<h1>From Database</h1>
+			<h1>Database</h1>
 			<div>
 				<button className='btn btn-light' onClick={getIfcFilesFromDbs}>
 					<i className='fas fa-sync'></i>
