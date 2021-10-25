@@ -115,6 +115,22 @@ button,
 	color: rgb(255, 255, 255);
 }
 
+.btn-white {
+	font-size: 0.75rem;
+	font-weight: lighter;
+	font-style: oblique;
+	background: rgb(255, 255, 255);
+	color: rgb(0, 0, 0);
+}
+
+.btn-white-lg {
+	font-size: 1.5rem;
+	font-weight: 900;
+	font-style: normal;
+	background: rgb(255, 255, 255);
+	color: rgb(0, 0, 0);
+}
+
 .btn-light,
 .bg-light,
 .badge-light,

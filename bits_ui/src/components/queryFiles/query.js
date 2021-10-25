@@ -3,7 +3,6 @@ import axios from 'axios';
 
 const Query = ({ queryFile }) => {
 	const [showApp, setShowApp] = useState(false);
-	const [showQuery, setShowQuery] = useState(false);
 	const [showTypes, setShowTypes] = useState(false);
 	const [showProperties, setShowProperties] = useState(false);
 	const [distinctTypes, setDistinctTypes] = useState([]);
@@ -11,8 +10,6 @@ const Query = ({ queryFile }) => {
 
 	const [selectedTypes, setSelectedTypes] = useState([]);
 	const [selectedProperties, setSelectedProperties] = useState([]);
-	const [isSelectedType, setIsSelectedType] = useState([]);
-	const [isSelectedProp, setIsSelectedProp] = useState([]);
 
 	useEffect(() => {
 		queryFile = [...new Set(queryFile)];
@@ -166,13 +163,18 @@ const Query = ({ queryFile }) => {
 			{distinctTypes.length > 0 && (
 				<div className='flex2'>
 					<h2>Select Types of Elements</h2>
-					<button className='btn btn-danger' onClick={toggleShowTypes}>
-						{showTypes ? (
-							<i className='fas fa-eye-slash'></i>
-						) : (
-							<i className='fas fa-eye'></i>
-						)}
-					</button>
+					<section>
+						<button className='btn-white-lg'>
+							<i className='fa fa-sort-alpha-down'></i>
+						</button>
+						<button className='btn btn-danger' onClick={toggleShowTypes}>
+							{showTypes ? (
+								<i className='fas fa-eye-slash'></i>
+							) : (
+								<i className='fas fa-eye'></i>
+							)}
+						</button>
+					</section>
 				</div>
 			)}
 			{showTypes && (
@@ -189,11 +191,16 @@ const Query = ({ queryFile }) => {
 										<button onClick={(evt) => remType(evt, e)}>
 											<i className='fas fa-minus'></i>
 										</button>
-										<input
-											type='checkbox'
-											checked={isSelectedTypeProperty(e)}
-											onChange={(e) => 2}
-										/>
+										{isSelectedTypeProperty(e) && (
+											<button className='btn btn-white'>
+												<i className='fas fa-check'></i>
+											</button>
+										)}
+										{!isSelectedTypeProperty(e) && (
+											<button className='btn btn-white'>
+												<i className='fas fa-times'></i>
+											</button>
+										)}
 									</td>
 								</tr>
 							))}
@@ -205,13 +212,18 @@ const Query = ({ queryFile }) => {
 			{distinctProperties.length && (
 				<div className='flex2'>
 					<h2>Select Properties of Elements</h2>
-					<button className='btn btn-danger' onClick={toggleShowProperties}>
-						{showProperties ? (
-							<i className='fas fa-eye-slash'></i>
-						) : (
-							<i className='fas fa-eye'></i>
-						)}
-					</button>
+					<section>
+						<button className='btn-white-lg'>
+							<i className='fa fa-sort-alpha-down'></i>
+						</button>
+						<button className='btn btn-danger' onClick={toggleShowProperties}>
+							{showProperties ? (
+								<i className='fas fa-eye-slash'></i>
+							) : (
+								<i className='fas fa-eye'></i>
+							)}
+						</button>
+					</section>
 				</div>
 			)}
 			{showProperties && (
@@ -228,11 +240,16 @@ const Query = ({ queryFile }) => {
 										<button onClick={(evt) => remProperty(evt, e)}>
 											<i className='fa fa-minus'></i>
 										</button>
-										<input
-											type='checkbox'
-											checked={isSelectedTypeProperty(e)}
-											onChange={(e) => 2}
-										/>
+										{isSelectedTypeProperty(e) && (
+											<button className='btn btn-white'>
+												<i className='fas fa-check'></i>
+											</button>
+										)}
+										{!isSelectedTypeProperty(e) && (
+											<button className='btn btn-white'>
+												<i className='fas fa-times'></i>
+											</button>
+										)}
 									</td>
 								</tr>
 							))}
