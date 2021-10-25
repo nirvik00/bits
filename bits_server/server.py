@@ -235,8 +235,12 @@ def query():
     if request.method=="POST":
         namex=request.form["query"]
         file_obj_arr=json.loads(namex)
-        print(file_obj_arr)
-        return "ok"
+        db=Database()
+        out=db.query(file_obj_arr)
+        for i in out:
+            print("\n", json.dumps(i, indent=2))
+        print("query over")
+        return jsonify({"products": out})
     else:
         print("try post request")
         return jsonify({"msg": "try post request"})

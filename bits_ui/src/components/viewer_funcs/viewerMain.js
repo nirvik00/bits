@@ -11,7 +11,9 @@ var width, height;
 
 //
 const Viewer = ({ geomData, getSelObjects, controlOpt, clearAllObjects }) => {
+	const [showOutline, setShowOutline] = useState(false);
 	//
+
 	useEffect(() => {
 		if (geomData.data) {
 			generate3dView();
@@ -22,6 +24,28 @@ const Viewer = ({ geomData, getSelObjects, controlOpt, clearAllObjects }) => {
 		handleViewOptions(controlOpt);
 		controlOpt = '';
 	}, [controlOpt]);
+
+	useEffect(() => {
+		if (showOutline) {
+			ObjectArr.forEach((obj) => {
+				try {
+					let m1 = new THREE.LineBasicMaterial({
+						color: 0x000000,
+					});
+					obj.boxMe.material = m1;
+					scene3d.add(obj.boxMe);
+				} catch (err) {}
+			});
+		} else if (!showOutline) {
+			ObjectArr.forEach((obj) => {
+				try {
+					obj.boxMe.geometry.dispose();
+					obj.boxMe.material.dispose();
+					scene3d.remove(obj.boxMe);
+				} catch (err) {}
+			});
+		}
+	}, [showOutline]);
 
 	//
 	var select = false;
@@ -94,6 +118,13 @@ const Viewer = ({ geomData, getSelObjects, controlOpt, clearAllObjects }) => {
 						side: THREE.DoubleSide,
 					});
 					scene3d.add(obj.mesh);
+					if (obj.boxMe) {
+						let m1 = new THREE.LineBasicMaterial({
+							color: 0xcccccc,
+						});
+						obj.boxMe.material = m1;
+						scene3d.add(obj.boxMe);
+					}
 				} catch (err) {}
 			}
 		});
@@ -123,9 +154,10 @@ const Viewer = ({ geomData, getSelObjects, controlOpt, clearAllObjects }) => {
 			opacity: 1.0,
 			transparent: false,
 		});
+
 		var m2 = new THREE.MeshPhongMaterial({
 			color: new THREE.Color('rgb(255,0,0)'),
-			opacity: 0.5,
+			opacity: 0.75,
 			transparent: true,
 		});
 		ObjectArr.forEach((obj) => {
@@ -133,7 +165,11 @@ const Viewer = ({ geomData, getSelObjects, controlOpt, clearAllObjects }) => {
 				obj.mesh.material = m2;
 				try {
 					if (obj.boxMe) {
-						// scene3d.add(obj.boxMe, m1);
+						let m1 = new THREE.LineBasicMaterial({
+							color: 0x000000,
+						});
+						obj.boxMe.material = m1;
+						scene3d.add(obj.boxMe);
 					}
 				} catch (err) {}
 			} else {
@@ -143,13 +179,6 @@ const Viewer = ({ geomData, getSelObjects, controlOpt, clearAllObjects }) => {
 						opacity: obj.opacity,
 						transparent: obj.transparent,
 					});
-					try {
-						if (obj.boxMe) {
-							obj.boxMe.geometry.dispose();
-							obj.boxMe.material.dispose();
-							scene3d.remove(obj.boxMe);
-						}
-					} catch (err) {}
 				}
 			}
 		});
@@ -253,8 +282,32 @@ const Viewer = ({ geomData, getSelObjects, controlOpt, clearAllObjects }) => {
 					scene3d.remove(e.mesh);
 					e.selected = false;
 					e.hide = true;
+					try {
+						e.boxMe.geometry.dispose();
+						e.boxMe.material.dispose();
+						scene3d.remove(e.boxMe);
+					} catch (err) {}
 				}
 			});
+		} else if (v_opt.param === 'x') {
+			setShowOutline(!showOutline);
+			console.log(showOutline);
+			// 									hide selected
+			if (showOutline) {
+				ObjectArr.forEach((e) => {
+					try {
+						scene3d.add(e.boxMe);
+					} catch (err) {}
+				});
+			} else {
+				ObjectArr.forEach((e) => {
+					try {
+						e.boxMe.geometry.dispose();
+						e.boxMe.material.dispose();
+						scene3d.remove(e.boxMe);
+					} catch (err) {}
+				});
+			}
 		} else if (v_opt.param === 'd') {
 			let cateArr = v_opt.val.split(',');
 			// 						isolate selected category

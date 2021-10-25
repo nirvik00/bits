@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Query = ({ queryFile }) => {
+const Query = ({ queryFile, queryOut }) => {
 	const [showApp, setShowApp] = useState(false);
 	const [showTypes, setShowTypes] = useState(false);
 	const [showProperties, setShowProperties] = useState(false);
@@ -62,6 +62,11 @@ const Query = ({ queryFile }) => {
 	const runQuery = async (evt) => {
 		evt.preventDefault();
 		queryFile = [...new Set(queryFile)];
+		for (let i = 0; i < queryFile.length; i++) {
+			if (Array.isArray(queryFile[i])) {
+				queryFile.splice(i, 1);
+			}
+		}
 		const dataArray = new FormData();
 		let queryObj = {
 			file: queryFile,
@@ -76,6 +81,10 @@ const Query = ({ queryFile }) => {
 					'Content-Type': 'multipart/form-data',
 				},
 			});
+			// console.log('res', out);
+			let res = out.data.products;
+			console.log(out);
+			queryOut(out);
 		} catch (err) {
 			console.error(err);
 		}
@@ -208,7 +217,6 @@ const Query = ({ queryFile }) => {
 					</table>
 				</div>
 			)}
-			<br />
 			{distinctProperties.length && (
 				<div className='flex2'>
 					<h2>Select Properties of Elements</h2>

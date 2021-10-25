@@ -76,6 +76,7 @@
 	flex-direction: column;
 	width: auto;
 	text-align: center;
+	z-index: 10000;
 }
 
 .form .form-group {

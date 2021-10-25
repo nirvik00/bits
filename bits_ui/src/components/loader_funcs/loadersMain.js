@@ -4,7 +4,7 @@ import LoadFromDB from './loadFromDB';
 import SetOperationsTypes from '../queryFiles/setOpsMain';
 import Query from '../queryFiles/query';
 
-const Loaders = ({ getGeomData, setOpsDataX }) => {
+const Loaders = ({ getGeomData, setOpsDataX, queryOutFromApp }) => {
 	const [uploadFile, setUploadFile] = useState('');
 	const [queryFile, setQueryFile] = useState([]);
 	const [btnClick, setBtnClick] = useState(true);
@@ -86,6 +86,10 @@ const Loaders = ({ getGeomData, setOpsDataX }) => {
 		setQueryFile([...new Set(queryFile), p]);
 	};
 
+	const queryOut = (x) => {
+		getGeomData(x, false);
+	};
+
 	return (
 		<div>
 			<div className='upload-bar'>
@@ -123,7 +127,7 @@ const Loaders = ({ getGeomData, setOpsDataX }) => {
 			/>
 			<br />
 			<br />
-			<Query queryFile={queryFile} />
+			<Query queryFile={queryFile} queryOut={queryOut} />
 			<br />
 			<br />
 			<SetOperationsTypes queryFile={queryFile} setOpsData={setOpsData} />

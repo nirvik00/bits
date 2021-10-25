@@ -100,9 +100,16 @@ export const genGeomFunc = (product_data) => {
 			geometry.computeVertexNormals();
 			let me = new THREE.Mesh(geometry, material);
 			//
+			const edges = new THREE.EdgesGeometry(geometry);
+			const line = new THREE.LineSegments(
+				edges,
+				new THREE.LineBasicMaterial({ color: 0x000000 })
+			);
+			//
 			let box = new THREE.Box3();
-			me.geometry.computeBoundingBox();
-			const boxMe = new THREE.BoxHelper(me, 0xffff00);
+			// me.geometry.computeBoundingBox();
+			// const boxMe = new THREE.BoxHelper(me, 0x000000);
+			const boxMe = line;
 			let prod_name = 'unknown';
 			try {
 				product_data[i].name.length > 0

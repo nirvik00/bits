@@ -57,6 +57,13 @@ const Controls = ({ getControlOpt }) => {
 							</button>
 						</td>
 						<td>
+							<button
+								className='btn btn-light'
+								onClick={(e) => setViewBtn(e, 'x')}>
+								<i className='fas fa-border-style'></i>
+							</button>
+						</td>
+						<td>
 							<p> Types / Categories separated by commas </p>
 						</td>
 						<td>

@@ -225,17 +225,58 @@ class Database(object):
 
     #   func 11
     #   run mongodb queries in python
-    def query(self, collection):
-        query={"type": "IfcWallStandardCase"}
-        fields={"type":1, "properties.Area": 1, "properties.Volume": 1, "_id":0}
-        doc=collection.find(query, fields)
-        for i in doc:
-            properties=[ e for e in i["properties"] if len(e) != 0]
-            print(properties)
+    def query(self, file_obj_arr):
+        files=file_obj_arr["file"]
+        types=file_obj_arr["types"]
+        properties=file_obj_arr["properties"]
+        print(files)
+        print(types)
+        print(properties)
+        print("\n\n")
+
+        product_li=[]
+        for fi in files:
+            collection= self.get_collection(fi["name"], fi["uuid"])
+            col_types=collection.distinct("type")
+            req_types=[]
+            for ty in types:
+                for ty2 in col_types:
+                    if ty2 == ty:
+                        if ty not in req_types:
+                            req_types.append(ty)
+            #   print("types going to query: ", req_types)
+
+            for typex in req_types:
+                #   print("\n", typex)
+                docs=collection.find({"type":typex})
+                for doc in docs:
+                    #   print("\n",typex, doc["_id"], doc["global_id"])
+                    doc_props=doc["properties"]
+                    req_props=[]
+                    for prop in doc_props:
+                        k=list(prop.keys())[0]
+                        for r in properties:
+                            if k==r:
+                                #   print(k, prop[k])
+                                #   req_props[k]=prop[k]
+                                req_props.append(prop)
+                    prod= {"global_id": doc["global_id"], "type": typex, "name": doc["name"], "vertices": doc["vertices"], "faces": doc["faces"], "properties": req_props}
+
+                    product_li.append(prod)
+
+        return product_li
 
 
 
 
+
+"""
+
+prod= json.dumps({"global_id": product.GlobalId, "type": product.is_a(), "vertices": obj_verts, "faces": obj_faces, "name": prod_name, "properties": props})
+product_li.append(prod)
+return {"products":product_li, "categories":product_name_li }
+
+"""
 
 # DRIVER FUNCTION: file=db_test.py
 
