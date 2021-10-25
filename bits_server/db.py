@@ -130,6 +130,8 @@ class Database(object):
                 for key in keys:
                     if key not in all_props:
                         all_props.append(key)
+        all_types.sort()
+        all_props.sort()
         return [all_types, all_props]
 
 

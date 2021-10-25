@@ -143,6 +143,7 @@ def get_col_type_props():
 
 #   end point 07
 #   union distinct types in different files
+#   ui: query.js
 @app.route("/union-types-in-files", methods=["GET", "POST"])
 def union_types():
     if request.method == "POST":
@@ -159,6 +160,7 @@ def union_types():
 
 #   end point 08
 #   intersection distinct types in different files
+#   ui: setOps.js
 @app.route("/intersection-in-files", methods=["GET", "POST"])
 def intersection_types():
     print("get intersection types in files")
@@ -192,6 +194,7 @@ def intersection_types():
 
 #   end point 09
 #   difference distinct types in different files
+#   ui: setOps.js
 @app.route("/difference-in-files", methods=["GET", "POST"])
 def difference_types():
     print("get difference types in files")
@@ -225,14 +228,15 @@ def difference_types():
 
 #   end point 10
 #   query on file (s)
+#   ui: query.js
 @app.route("/query", methods=["GET", "POST"])
 def query():
     print("running query")
     if request.method=="POST":
-        namex=request.form["fileobjarr"]
+        namex=request.form["query"]
         file_obj_arr=json.loads(namex)
         print(file_obj_arr)
-        return
+        return "ok"
     else:
         print("try post request")
         return jsonify({"msg": "try post request"})

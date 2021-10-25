@@ -11,12 +11,8 @@ const Query = ({ queryFile }) => {
 
 	const [selectedTypes, setSelectedTypes] = useState([]);
 	const [selectedProperties, setSelectedProperties] = useState([]);
-	const [selTypeText, setSelTypeText] = useState('');
-	const [selTypeProp, setSelPropText] = useState('');
-
-	useEffect(() => {
-		getTypeFields();
-	}, []);
+	const [isSelectedType, setIsSelectedType] = useState([]);
+	const [isSelectedProp, setIsSelectedProp] = useState([]);
 
 	useEffect(() => {
 		queryFile = [...new Set(queryFile)];
@@ -35,7 +31,9 @@ const Query = ({ queryFile }) => {
 		setShowProperties(!showProperties);
 	};
 
-	const getTypeFields = async () => {
+	const getTypeProperties = async (evt) => {
+		evt.preventDefault();
+
 		queryFile = [...new Set(queryFile)];
 		let i = 0;
 		queryFile.forEach((e) => {
@@ -47,9 +45,9 @@ const Query = ({ queryFile }) => {
 		const dataArray = new FormData();
 		dataArray.append('fileobjarr', JSON.stringify(queryFile));
 		try {
-			// end point 6-a
+			// end point 7
 			let out = await axios.post(
-				'http://192.168.1.151:5000//union-types-in-files',
+				'http://192.168.1.151:5000/union-types-in-files',
 				dataArray,
 				{
 					headers: {
@@ -64,11 +62,35 @@ const Query = ({ queryFile }) => {
 		}
 	};
 
+	const runQuery = async (evt) => {
+		evt.preventDefault();
+		queryFile = [...new Set(queryFile)];
+		const dataArray = new FormData();
+		let queryObj = {
+			file: queryFile,
+			types: selectedTypes,
+			properties: selectedProperties,
+		};
+		dataArray.append('query', JSON.stringify(queryObj));
+		try {
+			// end point 7
+			let out = await axios.post('http://192.168.1.151:5000/query', dataArray, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			});
+		} catch (err) {
+			console.error(err);
+		}
+	};
+
 	const showQueryHtml = (
 		<Fragment>
 			<div className='flex2'>
 				<h1>Query / Schedule</h1>
-				<button className='btn btn-select' onClick={getTypeFields}>
+				<button
+					className='btn btn-select'
+					onClick={(evt) => getTypeProperties(evt)}>
 					Show Types & Properties
 				</button>
 				<button className='btn btn-light' onClick={toggleShowApp}>
@@ -123,11 +145,27 @@ const Query = ({ queryFile }) => {
 		setSelectedProperties(y);
 	};
 
+	const clearFields = (evt) => {
+		evt.preventDefault();
+		setSelectedTypes([]);
+		setSelectedProperties([]);
+	};
+
+	const isSelectedTypeProperty = (val) => {
+		let u = selectedProperties.filter((e) => val === e);
+		let v = selectedTypes.filter((e) => val === e);
+		if (u.length > 0 || v.length > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
 	const showTypesPropertiesHtml = (
 		<Fragment>
 			{distinctTypes.length > 0 && (
 				<div className='flex2'>
-					<h2>Types of Elements</h2>
+					<h2>Select Types of Elements</h2>
 					<button className='btn btn-danger' onClick={toggleShowTypes}>
 						{showTypes ? (
 							<i className='fas fa-eye-slash'></i>
@@ -145,18 +183,17 @@ const Query = ({ queryFile }) => {
 								<tr className='flex2' key={Math.random() * 100}>
 									<td>{e}</td>
 									<td>
-										<td>
-											<button>
-												<i
-													className='fa fa-plus'
-													onClick={(evt) => addType(evt, e)}></i>
-											</button>
-											<button>
-												<i
-													className='fa fa-minus'
-													onClick={(evt) => remType(evt, e)}></i>
-											</button>
-										</td>
+										<button onClick={(evt) => addType(evt, e)}>
+											<i className='fa fa-plus'></i>
+										</button>
+										<button onClick={(evt) => remType(evt, e)}>
+											<i className='fas fa-minus'></i>
+										</button>
+										<input
+											type='checkbox'
+											checked={isSelectedTypeProperty(e)}
+											onChange={(e) => 2}
+										/>
 									</td>
 								</tr>
 							))}
@@ -167,7 +204,7 @@ const Query = ({ queryFile }) => {
 			<br />
 			{distinctProperties.length && (
 				<div className='flex2'>
-					<h2>Combined Properties of all types</h2>
+					<h2>Select Properties of Elements</h2>
 					<button className='btn btn-danger' onClick={toggleShowProperties}>
 						{showProperties ? (
 							<i className='fas fa-eye-slash'></i>
@@ -185,16 +222,17 @@ const Query = ({ queryFile }) => {
 								<tr className='flex2' key={Math.random() * 100}>
 									<td>{e}</td>
 									<td>
-										<button>
-											<i
-												className='fa fa-plus'
-												onClick={(evt) => addProperty(evt, e)}></i>
+										<button onClick={(evt) => addProperty(evt, e)}>
+											<i className='fa fa-plus'></i>
 										</button>
-										<button>
-											<i
-												className='fa fa-minus'
-												onClick={(evt) => remProperty(evt, e)}></i>
+										<button onClick={(evt) => remProperty(evt, e)}>
+											<i className='fa fa-minus'></i>
 										</button>
+										<input
+											type='checkbox'
+											checked={isSelectedTypeProperty(e)}
+											onChange={(e) => 2}
+										/>
 									</td>
 								</tr>
 							))}
@@ -205,17 +243,15 @@ const Query = ({ queryFile }) => {
 		</Fragment>
 	);
 
-	const submitForm = (e) => {};
 	const queryFieldsHtml = (
 		<div className='div-panel'>
-			<form className='form form-group' submitForm={submitForm}>
+			<form className='form form-group'>
 				<div className='flex2'>
 					<h3> Types</h3>
 					<input
 						type='text'
 						value={selectedTypes}
-						placeholder='Types separated by comma'
-						onChange={(e) => setSelTypeText(e.target.value)}
+						placeholder='Select from Types of Elements (below)'
 					/>
 				</div>
 				<div className='flex2'>
@@ -223,13 +259,19 @@ const Query = ({ queryFile }) => {
 					<input
 						type='text'
 						value={selectedProperties}
-						placeholder='Properties separated by comma'
-						onChange={(e) => setSelPropText(e.target.value)}
+						placeholder='Select from Properties of Elements (below)'
 					/>
 				</div>
+				<br />
 				<div className='flex'>
-					<button className='btn btn-danger'>Clear Fields</button>
-					<button className='btn btn-danger'>Submit for Query</button>
+					<button
+						className='btn btn-danger'
+						onClick={(evt) => clearFields(evt)}>
+						Clear Fields
+					</button>
+					<button className='btn btn-danger' onClick={(evt) => runQuery(evt)}>
+						Submit for Query
+					</button>
 				</div>
 			</form>
 		</div>
