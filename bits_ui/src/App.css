@@ -19,10 +19,8 @@
 .grid-container {
 	display: grid;
 	grid-template-areas:
-		'loaders viewer viewer  viewer  properties'
-		'loaders viewer viewer  viewer  properties'
-		'loaders viewer viewer  viewer  properties'
-		'loaders controls controls controls  controls';
+		'loaders viewer viewer  properties'
+		'loaders controls controls  controls';
 	grid-gap: 10px;
 	font-size: 0.75rem;
 	height: 100vh;
@@ -127,9 +125,8 @@ button {
 
 .table th,
 .table td {
-	padding: 0.2rem 0.2rem;
-	text-align: center;
-	margin-left: 2rem;
+	padding: 0.2rem 0.5rem;
+	justify-content: left;
 }
 
 .table th {

@@ -9,8 +9,10 @@ const Query = ({ queryFile }) => {
 	const [distinctTypes, setDistinctTypes] = useState([]);
 	const [distinctProperties, setDistinctPropertiess] = useState([]);
 
-	const [selectedTypes, setSelectedTypes] = useState('');
-	const [selectedProperties, setSelectedProperties] = useState('');
+	const [selectedTypes, setSelectedTypes] = useState([]);
+	const [selectedProperties, setSelectedProperties] = useState([]);
+	const [selTypeText, setSelTypeText] = useState('');
+	const [selTypeProp, setSelPropText] = useState('');
 
 	useEffect(() => {
 		getTypeFields();
@@ -67,7 +69,7 @@ const Query = ({ queryFile }) => {
 			<div className='flex2'>
 				<h1>Query / Schedule</h1>
 				<button className='btn btn-select' onClick={getTypeFields}>
-					Assist
+					Show Types & Properties
 				</button>
 				<button className='btn btn-light' onClick={toggleShowApp}>
 					{showApp ? (
@@ -91,11 +93,41 @@ const Query = ({ queryFile }) => {
 		</div>
 	);
 
+	const addType = (evt, val) => {
+		evt.preventDefault();
+		let x = [...new Set(selectedTypes)];
+		x.push(val);
+		let y = [...new Set(x)];
+		setSelectedTypes(y);
+	};
+
+	const remType = (evt, val) => {
+		evt.preventDefault();
+		let x = [...new Set(selectedTypes)];
+		let y = x.filter((e) => e !== val);
+		setSelectedTypes(y);
+	};
+
+	const addProperty = (evt, val) => {
+		evt.preventDefault();
+		let x = [...new Set(selectedProperties)];
+		x.push(val);
+		let y = [...new Set(x)];
+		setSelectedProperties(y);
+	};
+
+	const remProperty = (evt, val) => {
+		evt.preventDefault();
+		let x = [...new Set(selectedProperties)];
+		let y = x.filter((e) => e !== val);
+		setSelectedProperties(y);
+	};
+
 	const showTypesPropertiesHtml = (
 		<Fragment>
 			{distinctTypes.length > 0 && (
 				<div className='flex2'>
-					<h2>Types</h2>
+					<h2>Types of Elements</h2>
 					<button className='btn btn-danger' onClick={toggleShowTypes}>
 						{showTypes ? (
 							<i className='fas fa-eye-slash'></i>
@@ -113,7 +145,18 @@ const Query = ({ queryFile }) => {
 								<tr className='flex2' key={Math.random() * 100}>
 									<td>{e}</td>
 									<td>
-										<input type='checkbox'></input>
+										<td>
+											<button>
+												<i
+													className='fa fa-plus'
+													onClick={(evt) => addType(evt, e)}></i>
+											</button>
+											<button>
+												<i
+													className='fa fa-minus'
+													onClick={(evt) => remType(evt, e)}></i>
+											</button>
+										</td>
 									</td>
 								</tr>
 							))}
@@ -124,7 +167,7 @@ const Query = ({ queryFile }) => {
 			<br />
 			{distinctProperties.length && (
 				<div className='flex2'>
-					<h2>Properties</h2>
+					<h2>Combined Properties of all types</h2>
 					<button className='btn btn-danger' onClick={toggleShowProperties}>
 						{showProperties ? (
 							<i className='fas fa-eye-slash'></i>
@@ -142,7 +185,16 @@ const Query = ({ queryFile }) => {
 								<tr className='flex2' key={Math.random() * 100}>
 									<td>{e}</td>
 									<td>
-										<input type='checkbox'></input>
+										<button>
+											<i
+												className='fa fa-plus'
+												onClick={(evt) => addProperty(evt, e)}></i>
+										</button>
+										<button>
+											<i
+												className='fa fa-minus'
+												onClick={(evt) => remProperty(evt, e)}></i>
+										</button>
 									</td>
 								</tr>
 							))}
@@ -163,16 +215,16 @@ const Query = ({ queryFile }) => {
 						type='text'
 						value={selectedTypes}
 						placeholder='Types separated by comma'
-						onChange={(e) => setSelectedTypes(e.target.value)}
+						onChange={(e) => setSelTypeText(e.target.value)}
 					/>
 				</div>
 				<div className='flex2'>
-					<h3> Properties</h3>
+					<h3> Properties </h3>
 					<input
 						type='text'
 						value={selectedProperties}
 						placeholder='Properties separated by comma'
-						onChange={(e) => setSelectedTypes(e.target.value)}
+						onChange={(e) => setSelPropText(e.target.value)}
 					/>
 				</div>
 				<div className='flex'>
