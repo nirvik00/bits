@@ -44,7 +44,7 @@ def elem_query(cur, param_arr, file_details):
         #print(s, i, j)
         if i==j:
             s["filename"] = file_details["filename"]
-            s["col_uuid"] = file_details["uuid"]
+            s["collection_uuid"] = file_details["uuid"]
             s["global_id"]= elem["global_id"]
             s["type"]= elem["type"]
             s["name"]= elem["name"]
@@ -59,7 +59,7 @@ def filter_params(k, v, param_arr):
             min_x, max_x, match_x = None, None, None
 
             try:
-                if param["range"]:
+                if param["range"] and len(param["range"])>0:
                     min_x = float(param["range"][0])
                     max_x = float(param["range"][1])
                     v = float(v)
@@ -106,6 +106,7 @@ def run_query():
             cur = col.find({"type":elem_type}, s)
 
             x=elem_query(cur, param_arr, file_details)
+            #print(len(x))
             if len(x) > 0:
                 for e in x:
                     req_data.append(e)

@@ -7,20 +7,10 @@
                 "type": "IfcWallStandardCase",
                 "parameters": [
                     {
-                        "property": "area",
-                        "range": [
-                            1,
-                            12
-                        ],
-                        "match": ""
+                        "property": "area"
                     },
                     {
-                        "property": "base_constraint",
-                        "range": [
-                            1,
-                            12
-                        ],
-                        "match": "Level: Level 1"
+                        "property": "base_constraint"
                     }
                 ]
             }
@@ -68,6 +58,28 @@
                         "property": "head_height",
                         "min": "",
                         "max": ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "filename": "test2_3",
+        "uuid": "010a7fca-941b-4ad9-813f-904a30eb5b74",
+        "query": [
+            {
+                "type": "IfcWallStandardCase",
+                "parameters": [
+                    {
+                        "property": "area",
+                        "range": [
+                            1,
+                            12
+                        ]
+                    },
+                    {
+                        "property": "base_constraint",
+                        "match": "Level: Level 1"
                     }
                 ]
             }
