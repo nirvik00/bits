@@ -36,13 +36,38 @@
                     {
                         "property": "area",
                         "range": [
-                            7,
-                            12
+                            0,
+                            7
                         ]
                     },
                     {
                         "property": "base_constraint",
                         "match": "Level: Level 1"
+                    }
+                ]
+            },
+            {
+                "type": "IfcWindow",
+                "parameters": [
+                    {
+                        "property": "area",
+                        "min": "",
+                        "max": ""
+                    },
+                    {
+                        "property": "level",
+                        "min": "",
+                        "max": ""
+                    },
+                    {
+                        "property": "sill_height",
+                        "min": "",
+                        "max": ""
+                    },
+                    {
+                        "property": "head_height",
+                        "min": "",
+                        "max": ""
                     }
                 ]
             }

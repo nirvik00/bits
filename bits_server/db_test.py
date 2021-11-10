@@ -22,50 +22,65 @@ files_arr=[{"name": e, "uuid": f},  {"name": a, "uuid": b}]
 #                               #
 #################################
 
-def display_elem_query(cur, param_arr):
+def elem_query(cur, param_arr, file_details):
+    req_obj=[]
     for elem in cur:
-        print("---------\nid: ", elem["_id"])
         prop_li=elem["properties"]
+        #print("-----element----\nid: ", elem["_id"])
+        #print("\n")
+        s={}
+        s["db_id"]=str(elem["_id"])
+        i,j=0,0
         for props in prop_li:
             for k,v in props.items():
                 if k and v:
-                    print(k,": ", v)
-                    filter_params(k, v, param_arr)
+                    # print(k,": ", v)
+                    s[k]=v
+                    k=filter_params(k, v, param_arr)
+                    #print(k)
+                    if k==True:
+                        j+=1
+                    i+=1
+        #print(s, i, j)
+        if i==j:
+            s["filename"] = file_details["filename"]
+            s["col_uuid"] = file_details["uuid"]
+            s["global_id"]= elem["global_id"]
+            s["type"]= elem["type"]
+            s["name"]= elem["name"]
+            req_obj.append(s)
+    return req_obj
 
 def filter_params(k, v, param_arr):
     for param in param_arr:
-        #print("param:", param)
         if k == param["property"]:
-            print("checking...", k)
+            #print("checking...", k)
             range_t, match_t = False, False
             min_x, max_x, match_x = None, None, None
+
             try:
                 if param["range"]:
                     min_x = float(param["range"][0])
                     max_x = float(param["range"][1])
-                    try: 
-                        v = float(v)
-                        if v>min_x and v<max_x:
-                            range_t = True
-                    except:
-                        range_t=True
-                    print("test range: ", k, v, min_x, max_x, range_t)
+                    v = float(v)
+                    if v>min_x and v<max_x:
+                        range_t = True
             except:
                 range_t=True
-            
 
             try:
                 if param["match"]:
                     match_x = str(param["match"])
-                    try: 
-                        v = str(v)
-                        if v == match_x:
-                            match_t = True
-                    except:
-                        match_t=True
-                    print("test match: ", k, v, match_t)
+                    v = str(v)
+                    if v == match_x:
+                        match_t = True
             except:
                 match_t=True
+
+    if range_t==True and match_t == True:
+        return True
+
+    return False
             
 
 
@@ -76,20 +91,26 @@ def run_query():
     req_data=[]
     for x_json in input_json_li:
         col=db.get_collection(x_json["filename"],x_json["uuid"])
-        print("\nfilename: ", x_json["filename"], "\tuuid:", x_json["uuid"])
+        #print("\nfilename: ", x_json["filename"], "\tuuid:", x_json["uuid"])
+        file_details={"filename":x_json["filename"], "uuid": x_json["uuid"]}
         query_arr=x_json["query"]
         for query in query_arr:
             elem_type = query["type"]
             param_arr=query["parameters"]
             s={}
+            s["global_id"]=1
             s["type"]=1
             s["name"]=1
             for param in param_arr:
                 s["properties."+str(param["property"])]=1
             cur = col.find({"type":elem_type}, s)
-            #print('\nnumber of records: ', len(list(cur)), '\n')
-            display_elem_query(cur, param_arr)
 
+            x=elem_query(cur, param_arr, file_details)
+            if len(x) > 0:
+                for e in x:
+                    req_data.append(e)
+
+    print(json.dumps(req_data, indent=2))
             
 
 # elems= db.query(col)
