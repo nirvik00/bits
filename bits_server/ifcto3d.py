@@ -50,6 +50,7 @@ def runExportFuncs(r_filename):
     product_name_li=[]
     product_li=[]
     for product in f.by_type("IfcProduct"):
+        print(product)
         prod=product.is_a()
         props=[]
         props_name=[]
@@ -121,7 +122,7 @@ def runExportFuncs(r_filename):
     return {"products":product_li, "categories":product_name_li }
 
 
-""" 
-# driver
-runExportFuncs("wall_door.ifc")
-"""
+ 
+""" # driver
+runExportFuncs("walls_doors_general.ifc") """
+

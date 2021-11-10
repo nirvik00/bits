@@ -225,7 +225,7 @@ class Database(object):
 
     #   func 11
     #   run mongodb queries in python
-    def query(self, input_json):
+    def query(self, file_obj_arr):
         files=file_obj_arr["file"]
         types=file_obj_arr["types"]
         properties=file_obj_arr["properties"]

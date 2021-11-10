@@ -1,0 +1,51 @@
+[
+    {
+        "filename": "test2_1",
+        "uuid": "010a7fca-941b-4ad9-813f-904a30eb5b74",
+        "query": [
+            {
+                "type": "IfcWallStandardCase",
+                "parameters": [
+                    {
+                        "property": "area",
+                        "range": [
+                            1,
+                            12
+                        ],
+                        "match": ""
+                    },
+                    {
+                        "property": "base_constraint",
+                        "range": [
+                            1,
+                            12
+                        ],
+                        "match": "Level: Level 1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "filename": "test2_2",
+        "uuid": "4026efba-6c89-4f29-849c-2e87082a881a",
+        "query": [
+            {
+                "type": "IfcWallStandardCase",
+                "parameters": [
+                    {
+                        "property": "area",
+                        "range": [
+                            7,
+                            12
+                        ]
+                    },
+                    {
+                        "property": "base_constraint",
+                        "match": "Level: Level 1"
+                    }
+                ]
+            }
+        ]
+    }
+]
