@@ -9,6 +9,7 @@ def func1():
     print(tagged[0:6])
 
 nltk.download('treebank')
+
 from nltk.corpus import treebank
 def func2():
     t = treebank.parsed_sents('wsj_0001.mrg')[0]
@@ -19,7 +20,8 @@ def func2():
 from nltk import pos_tag
 from nltk import RegexpParser
 def func3():
-    text= "learn php from guru99 and make study easy".split()
+    sentence= """Peter Blinken, 61 years old, will join the board as a non-executive director, Nov 29."""
+    text= sentence.split()
     print("after split: ", text)
     tokens_tag = pos_tag(text)
     print("after tokenizer: ", tokens_tag)
@@ -28,5 +30,9 @@ def func3():
     print("After Regex: ", chunker)
     output=chunker.parse(tokens_tag)
     print("after chunking: ", output)
+    print(type(output))
+    output.draw()
 
 func3()
+
+# func2()

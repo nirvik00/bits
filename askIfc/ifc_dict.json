@@ -1,0 +1,9 @@
+[
+    {
+        "IfcWallStandardCase": ["IfcWallStandardCase", "wall", "walls", "structural wall", "architecural wall"],
+        "IfcWindow" : ["IfcWindow", "windows", "window"],
+        "IfcDoor": ["IfcDoor", "door", "doors"],
+        "level": [ "level", "base_constraint", "base_constraint", "top constraint", "top_constraint" ],
+        
+    }
+]
