@@ -1,4 +1,5 @@
 # full stack application for data interoperability (ifc)
+(publication forthcoming)
 <br/> python backend / react-three.js frontend
 <br/> federated data - architecture, structure, HVAC/MEP
 <br/> library: ifcopenshell
