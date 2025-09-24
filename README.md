@@ -1,7 +1,7 @@
 # full stack application for data interoperability (ifc)
-### python backend / react-three.js frontend
-### federated data - architecture, structure, HVAC/MEP
-### library: ifcopenshell
-### also REvit plugin
-### demo:
+<br/> python backend / react-three.js frontend
+<br/> federated data - architecture, structure, HVAC/MEP
+<br/> library: ifcopenshell
+<br/> also REvit plugin
+<br/> demo:
 https://www.youtube.com/watch?v=TPAfn8fG6L8&feature=youtu.be
